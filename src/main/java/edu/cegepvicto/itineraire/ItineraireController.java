@@ -1,10 +1,13 @@
 package edu.cegepvicto.itineraire;
 
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 
 import java.time.LocalDate;
@@ -225,6 +228,8 @@ public class ItineraireController {
         String message = valide ? "" : "Un pays doit être sélectionné.";
         messageErreur.setText(message);
 
+        gererStyleErreur(choixPays, valide);
+
         return valide;
     }
 
@@ -302,13 +307,46 @@ public class ItineraireController {
         etiquetteTotalGroupe.setText(coutTotal + " $");
     }
 
+    private void gererStyleErreur(Node node, boolean valide) {
+        ObservableList<String> styles = node.getStyleClass();
+
+        if(valide) {
+            styles.remove("erreur");
+        }
+        if(!valide && !styles.contains("erreur")) {
+            styles.add("erreur");
+        }
+    }
+
     @FXML
     private void reinitialiser() {
+        // Calcul du total
+        etiquetteTotalGroupe.setText("0 $");
+        etiquetteTotalPersonne.setText("0 $");
 
+        // Message d'erreur
+        erreurChoixMoyen.setText("");
+        erreurDateDeplacement.setText("");
+        erreurPaysArrive.setText("");
+        erreurPaysDepart.setText("");
+        erreurVilleArrivee.setText("");
+        erreurVilleDepart.setText("");
+
+        // Réinitialisation des choix
+        choixPaysDepart.getSelectionModel().clearSelection();
+        champVilleArrivee.setText("");
+        choixPaysArrive.getSelectionModel().clearSelection();
+        champVilleDepart.setText("");
+        choixDateDeplacement.setValue(LocalDate.now());
+        groupeMoyenTransport.getSelectedToggle().setSelected(false);
+        selectionSupplementBagage.setSelected(false);
+        selectionDateFlexible.setSelected(false);
+        selectionPremiereClasse.setSelected(false);
+        selectionNombrePersonnes.getValueFactory().setValue(1);
     }
 
     @FXML
     private void annuler() {
-
+        Platform.exit();
     }
 }
