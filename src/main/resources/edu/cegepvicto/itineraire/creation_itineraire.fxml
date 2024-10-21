@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.CheckBox?>
+<?import com.sun.javafx.scene.control.IntegerField?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.Button?>
+<VBox alignment="TOP_LEFT" spacing="10.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="edu.cegepvicto.itineraire.ItineraireController">
+  <padding>
+    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+  </padding>
+
+  <fx:define>
+    <ToggleGroup fx:id="groupeMoyenTransport"/>
+  </fx:define>
+
+  <Label>Créer un itinéraire</Label>
+
+  <GridPane hgap="10" vgap="10">
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="0">Pays de départ</Label>
+    <ComboBox GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="choixPaysDepart" promptText="Sélectionner un pays" />
+    <Label GridPane.columnIndex="2" GridPane.rowIndex="0" fx:id="erreurPaysDepart"/>
+
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="1">Ville de départ</Label>
+    <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="champVilleDepart" />
+    <Label GridPane.columnIndex="2" GridPane.rowIndex="1" fx:id="erreurVilleDepart"/>
+
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="2">Pays d'arrivé</Label>
+    <ComboBox GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="choixPaysArrive" promptText="Sélectionner un pays"/>
+    <Label GridPane.columnIndex="2" GridPane.rowIndex="2" fx:id="erreurPaysArrive"/>
+
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="3">Ville d'arrivée</Label>
+    <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" fx:id="champVilleArrivee" />
+    <Label GridPane.columnIndex="2" GridPane.rowIndex="3" fx:id="erreurVilleArrivee"/>
+
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="4">Date du déplacement</Label>
+    <DatePicker GridPane.columnIndex="1" GridPane.rowIndex="4" fx:id="choixDateDeplacement" promptText="aaaa-mm-jj" />
+    <Label GridPane.columnIndex="2" GridPane.rowIndex="4" fx:id="erreurDateDeplacement"/>
+
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.rowSpan="4">Moyen de déplacement</Label>
+    <RadioButton GridPane.columnIndex="1" GridPane.rowIndex="5" toggleGroup="$groupeMoyenTransport" fx:id="selectionAutobus">Autobus</RadioButton>
+    <RadioButton GridPane.columnIndex="1" GridPane.rowIndex="6" toggleGroup="$groupeMoyenTransport" fx:id="selectionTrain">Train</RadioButton>
+    <RadioButton GridPane.columnIndex="1" GridPane.rowIndex="7" toggleGroup="$groupeMoyenTransport" fx:id="selectionNavire">Navire</RadioButton>
+    <RadioButton GridPane.columnIndex="1" GridPane.rowIndex="8" toggleGroup="$groupeMoyenTransport" fx:id="selectionAvion">Avion</RadioButton>
+    <Label GridPane.columnIndex="2" GridPane.rowIndex="5" GridPane.rowSpan="4" fx:id="erreurChoixMoyen"/>
+
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="9" GridPane.rowSpan="3">Options</Label>
+    <CheckBox GridPane.columnIndex="1" GridPane.rowIndex="9" fx:id="selectionSupplementBagage">Supplément pour bagage</CheckBox>
+    <CheckBox GridPane.columnIndex="1" GridPane.rowIndex="10" fx:id="selectionPremiereClasse">Service de première classe</CheckBox>
+    <CheckBox GridPane.columnIndex="1" GridPane.rowIndex="11" fx:id="selectionDateFlexible">Date flexible</CheckBox>
+
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="12">Nombre de personnes</Label>
+    <Spinner GridPane.columnIndex="1" GridPane.rowIndex="12" min="1" max="10" initialValue="1" amountToStepBy="1" fx:id="selectionNombrePersonnes"/>
+
+    <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="13">
+      <GridPane vgap="10" hgap="20">
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="0">Total par personne</Label>
+        <Label GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="etiquetteTotalPersonne">0 $</Label>
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="1">Total</Label>
+        <Label GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="etiquetteTotalGroupe">0 $</Label>
+      </GridPane>
+    </HBox>
+
+  </GridPane>
+
+
+
+  <HBox alignment="CENTER_RIGHT" spacing="10.0">
+      <Button onAction="#acheterBillets">Acheter</Button>
+      <Button onAction="#reinitialiser">Réinitialiser</Button>
+      <Button onAction="#annuler">Annuler</Button>
+  </HBox>
+</VBox>
