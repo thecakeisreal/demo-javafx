@@ -1,0 +1,24 @@
+.valider {
+    -fx-background-color : #7cfc00;
+}
+
+.reinitialiser {
+    -fx-background-color : #b22222;
+}
+
+.annuler {
+    -fx-background-color : #ff8c00;
+}
+
+.message-erreur {
+    -fx-text-fill : "red";
+}
+
+.titreFenetre {
+    -fx-font-size : 20pt;
+    -fx-font-weight : bold;
+}
+
+.erreur {
+    -fx-border-color : "red";
+}
