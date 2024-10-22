@@ -12,71 +12,155 @@ import javafx.scene.control.*;
 
 import java.time.LocalDate;
 
+/**
+ * Contrôleur pour la fenêtre de création d'un itinéraire de
+ * voyage.
+ *
+ * Le contrôleur valide la saisie des données puis permet d'acheter
+ * les billets sélectionnés.
+ */
 public class ItineraireController {
 
+    /**
+     * Boîte de choix du pays de départ.
+     */
     @FXML
     private ComboBox<String> choixPaysDepart;
 
+    /**
+     * Étiquette pour afficher l'erreur dans le choix d'un pays
+     * de départ.
+     */
     @FXML
     private Label erreurPaysDepart;
 
+    /**
+     * Champ pour sélectionner une ville de départ.
+     */
     @FXML
     private TextField champVilleDepart;
 
+    /**
+     * Étiquette pour afficher l'erreur dans le choix d'une ville
+     * de départ.
+     */
     @FXML
     private Label erreurVilleDepart;
 
+    /**
+     * Boîte de choix du pays d'arrivée.
+     */
     @FXML
     private ComboBox<String> choixPaysArrive;
 
+    /**
+     * Étiquette pour afficher l'erreur dans le champ de pays
+     * d'arrivé.
+     */
     @FXML
     private Label erreurPaysArrive;
 
+    /**
+     * Champ pour saisir une ville d'arrivée.
+     */
     @FXML
     private TextField champVilleArrivee;
 
+    /**
+     * Étiquette pour afficher l'erreur dans le champ d'une ville
+     * d'arrivé.
+     */
     @FXML
     private Label erreurVilleArrivee;
 
+    /**
+     * Contrôle pour sélectionner la date du déplacement.
+     */
     @FXML
     private DatePicker choixDateDeplacement;
 
+    /**
+     * Étiquette pour afficher l'erreur dans la sélection d'une
+     * date de déplacement.
+     */
     @FXML
     private Label erreurDateDeplacement;
 
+    /**
+     * Groupement des boutons pour les moyens de transport afin d'en
+     * sélectionner qu'un seul.
+     */
     @FXML
     private ToggleGroup groupeMoyenTransport;
 
+    /**
+     * Bouton pour la sélection d'un autobus.
+     */
     @FXML
     private RadioButton selectionAutobus;
 
+    /**
+     * Bouton pour la sélection d'un train.
+     */
     @FXML
     private RadioButton selectionTrain;
 
+    /**
+     * Bouton pour la sélection d'un navire.
+     */
     @FXML
     private RadioButton selectionNavire;
 
+    /**
+     * Bouton pour la sélection d'un avion.
+     */
     @FXML
     private RadioButton selectionAvion;
 
+    /**
+     * Étiquette pour afficher une erreur dans le choix
+     * d'un moyen de transport.
+     */
     @FXML
     private Label erreurChoixMoyen;
 
+    /**
+     * Permet de sélectionner un supplément de bagage dans le
+     * transport.
+     */
     @FXML
     private CheckBox selectionSupplementBagage;
 
+    /**
+     * Permet de sélectionner une option en première classe
+     * dans le transport.
+     */
     @FXML
     private CheckBox selectionPremiereClasse;
 
+    /**
+     * Permet de sélectionner un billet à dates flexibles dans le
+     * transport.
+     */
     @FXML
     private CheckBox selectionDateFlexible;
 
+    /**
+     * Sélectionne le nombre de personnes pour lesquelles acheter
+     * un billet.
+     */
     @FXML
     private Spinner<Integer> selectionNombrePersonnes;
 
+    /**
+     * Étiquette qui affiche le total à payer par personne.
+     */
     @FXML
     private Label etiquetteTotalPersonne;
 
+    /**
+     * Étiquette qui affiche le total à payer pour tous les billets.
+     */
     @FXML Label etiquetteTotalGroupe;
 
     /**
@@ -89,57 +173,24 @@ public class ItineraireController {
      */
     private IntegerProperty coutExtra;
 
+    /**
+     * Méthode appelée à l'initialisation de la vue.
+     */
     @FXML
     public void initialize()
     {
-        // Initialisation des propriétés
-        coutTransport = new SimpleIntegerProperty();
-        coutTransport.addListener((observable, oldValue, newValue) -> {
-            calculerCoutTransport();
-        });
+        initialiserProprietesCout();
+        populerChoixPays();
+        configurerValidationFormulaire();
+        configurerReactiviteCalculTotal();
+    }
 
-        coutExtra = new SimpleIntegerProperty();
-        coutExtra.addListener((observable, oldValue, newValue) -> {
-            calculerCoutTransport();
-        });
-
-        // Peuplement des ComboBox
-        ObservableList<String> listePays = FXCollections.observableArrayList("Canada", "États-Unis", "France");
-        choixPaysDepart.setItems(listePays);
-        choixPaysArrive.setItems(listePays);
-
-        // Formulaire avec validation dynamique
-        choixPaysDepart.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if(!newValue) {
-                validerPays(choixPaysDepart, erreurPaysDepart);
-            }
-        });
-
-        champVilleDepart.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if(!newValue) {
-                validerVille(champVilleDepart, choixPaysDepart.getSelectionModel().getSelectedItem(), erreurVilleDepart);
-            }
-        });
-
-        choixPaysArrive.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if(!newValue) {
-                validerPays(choixPaysArrive, erreurPaysArrive);
-            }
-        });
-
-        champVilleArrivee.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if(!newValue) {
-                validerVille(champVilleArrivee, choixPaysArrive.getSelectionModel().getSelectedItem(), erreurVilleArrivee);
-            }
-        });
-
-        choixDateDeplacement.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if(!newValue) {
-                validationDateDeplacement();
-            }
-        });
-
-        // Réaction du formulaire au changement de valeurs du moyen de transport, des options et du nombre de personnes
+    /**
+     * Fait la liaison entre les champs qui ont un impact sur le coût total
+     * du transport et les champs qui affichent le coût du transport.
+     */
+    private void configurerReactiviteCalculTotal() {
+        // Sélection pour les moyens de transport
         selectionAutobus.selectedProperty().addListener((observable, oldValue, newValue ) -> {
             coutTransport.set(50);      // Autobus coute de base 50$ par facteur de distance
         });
@@ -153,6 +204,7 @@ public class ItineraireController {
             coutTransport.set(500);     // Avion coute de base 50$ par facteur de distance
         });
 
+        // Coût pour les suppléments
         selectionSupplementBagage.selectedProperty().addListener((observable, oldValue, newValue ) -> {
             // Le supplément bagage coute 25$
             if(newValue) {
@@ -185,6 +237,68 @@ public class ItineraireController {
 
         // Changement du nombre de personnes
         selectionNombrePersonnes.valueProperty().addListener((observable, oldValue, newValue ) -> {
+            calculerCoutTransport();
+        });
+    }
+
+    /**
+     * Fait la liaison entre les champs de formulaire et les méthodes de validation
+     * du formulaire.
+     */
+    private void configurerValidationFormulaire() {
+        choixPaysDepart.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if(!newValue) {
+                validerPays(choixPaysDepart, erreurPaysDepart);
+            }
+        });
+
+        champVilleDepart.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if(!newValue) {
+                validerVille(champVilleDepart, choixPaysDepart.getSelectionModel().getSelectedItem(), erreurVilleDepart);
+            }
+        });
+
+        choixPaysArrive.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if(!newValue) {
+                validerPays(choixPaysArrive, erreurPaysArrive);
+            }
+        });
+
+        champVilleArrivee.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if(!newValue) {
+                validerVille(champVilleArrivee, choixPaysArrive.getSelectionModel().getSelectedItem(), erreurVilleArrivee);
+            }
+        });
+
+        choixDateDeplacement.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if(!newValue) {
+                validationDateDeplacement();
+            }
+        });
+    }
+
+    /**
+     * Rempli les boites de sélection de pays avec le nom des pays valides
+     */
+    private void populerChoixPays() {
+        // Peuplement des ComboBox
+        ObservableList<String> listePays = FXCollections.observableArrayList("Canada", "États-Unis", "France");
+        choixPaysDepart.setItems(listePays);
+        choixPaysArrive.setItems(listePays);
+    }
+
+    /**
+     * Initialise les propriétés pour la gestion du coût du transport
+     */
+    private void initialiserProprietesCout() {
+        // Initialisation des propriétés
+        coutTransport = new SimpleIntegerProperty();
+        coutTransport.addListener((observable, oldValue, newValue) -> {
+            calculerCoutTransport();
+        });
+
+        coutExtra = new SimpleIntegerProperty();
+        coutExtra.addListener((observable, oldValue, newValue) -> {
             calculerCoutTransport();
         });
     }
@@ -260,7 +374,7 @@ public class ItineraireController {
         String message;
 
         if(valide) {
-            valide = dateDeplacement.isBefore(LocalDate.now());
+            valide = !dateDeplacement.isBefore(LocalDate.now());
             message = valide ? "" : "La date doit être aujourd'hui ou dans le futur.";
         } else {
             message = "Une date pour le déplacement doit être indiquée.";
@@ -307,6 +421,12 @@ public class ItineraireController {
         etiquetteTotalGroupe.setText(coutTotal + " $");
     }
 
+    /**
+     * Affecte ou non la classe de style "erreur" à un composante selon s'il est
+     * erronné ou non.
+     * @param node le noeud auquel affecter le style d'erreur
+     * @param valide est-ce que l'élément est valide ou non
+     */
     private void gererStyleErreur(Node node, boolean valide) {
         ObservableList<String> styles = node.getStyleClass();
 
@@ -318,6 +438,9 @@ public class ItineraireController {
         }
     }
 
+    /**
+     * Réinitialise le contenu du formulaire
+     */
     @FXML
     private void reinitialiser() {
         // Calcul du total
@@ -345,6 +468,9 @@ public class ItineraireController {
         selectionNombrePersonnes.getValueFactory().setValue(1);
     }
 
+    /**
+     * Annule la saisie, ce qui cause la fermeture de l'application.
+     */
     @FXML
     private void annuler() {
         Platform.exit();

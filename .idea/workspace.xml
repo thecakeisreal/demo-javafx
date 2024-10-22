@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="83d7112d-001d-484c-9e2d-cb535029c9c8" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/cegepvicto/itineraire/ItineraireController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/cegepvicto/itineraire/ItineraireController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/edu/cegepvicto/itineraire/creation_itineraire.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/edu/cegepvicto/itineraire/creation_itineraire.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,6 +78,8 @@
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Projets\demo-javafx\src\main\resources\edu\cegepvicto\itineraire" />
+      <recent name="C:\Projets\demo-javafx\src\main\resources\edu\cegepvicto\" />
+      <recent name="C:\Projets\demo-javafx\src\main\resources\edu\cegepvicto" />
       <recent name="C:\Projets\demo-javafx\src\main\java\edu\cegepvicto\itineraire" />
     </key>
   </component>
