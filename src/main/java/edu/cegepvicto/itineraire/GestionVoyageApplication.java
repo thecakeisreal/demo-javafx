@@ -7,6 +7,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Classe responsable de lancer le système de gestion de voyage
+ */
 public class GestionVoyageApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {

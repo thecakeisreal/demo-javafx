@@ -303,7 +303,6 @@ public class ItineraireController {
         });
     }
 
-
     /**
      * Déclenche la confirmation et l'achat des billets.
      */
