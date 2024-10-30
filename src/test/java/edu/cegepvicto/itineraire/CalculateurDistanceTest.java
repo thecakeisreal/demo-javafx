@@ -1,5 +1,8 @@
 package edu.cegepvicto.itineraire;
 
+import edu.cegepvicto.itineraire.CalculateurDistance;
+import edu.cegepvicto.itineraire.Pays;
+import edu.cegepvicto.itineraire.Ville;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -28,9 +31,9 @@ class CalculateurDistanceTest {
     @Test
     void distanceVolTest() {
         CalculateurDistance calculateurDistance = new CalculateurDistance();
-        assertEquals(calculateurDistance.distanceVol(villeA, villeB), 14412.0, 0.1, "Erreur du calcule de la distance entre la ville A et B");
-        assertEquals(calculateurDistance.distanceVol(villeB, villeA), 14412.0, 0.1, "Erreur du calcule de la distance entre la ville B et A");
-        assertEquals(calculateurDistance.distanceVol(villeA, villeC), 10563.0, 0.1, "Erreur du calcule de la distance entre la ville A et C");
-        assertEquals(calculateurDistance.distanceVol(villeC, villeB), 4448.5, 0.1, "Erreur du calcule de la distance entre la ville C et B");
+        assertEquals(14412.0, calculateurDistance.distanceVol(villeA, villeB),  0.1, "Erreur du calcule de la distance entre la ville A et B");
+        assertEquals(14412.0, calculateurDistance.distanceVol(villeB, villeA), 0.1, "Erreur du calcule de la distance entre la ville B et A");
+        assertEquals(10563.0, calculateurDistance.distanceVol(villeA, villeC), 0.1, "Erreur du calcule de la distance entre la ville A et C");
+        assertEquals(4448.5, calculateurDistance.distanceVol(villeC, villeB),  0.1, "Erreur du calcule de la distance entre la ville C et B");
     }
 }

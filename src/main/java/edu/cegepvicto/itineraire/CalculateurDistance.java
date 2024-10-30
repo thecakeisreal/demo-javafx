@@ -20,20 +20,13 @@ public class CalculateurDistance {
         double diffLatitude = arrivee.getLatitude() - depart.getLatitude();
         double diffLongitude = arrivee.getLongitude() - depart.getLongitude();
 
-        double facteurLatitude = Math.sin(degresEnRadian(diffLatitude * 0.5));
-        double facteurLongitude = Math.sin(degresEnRadian(diffLongitude * 0.5));
+        double facteurLatitude = Math.sin(MathUtil.degresEnRadian(diffLatitude * 0.5));
+        double facteurLongitude = Math.sin(MathUtil.degresEnRadian(diffLongitude * 0.5));
 
         double RAYON_TERRE = 6371;
         return 2.0 * RAYON_TERRE * Math.asin(Math.sqrt(facteurLatitude * facteurLatitude +
-                Math.cos(degresEnRadian(depart.getLatitude() * Math.cos(degresEnRadian(arrivee.getLatitude())) * facteurLongitude))));
+                Math.cos(MathUtil.degresEnRadian(depart.getLatitude())) * Math.cos(MathUtil.degresEnRadian(arrivee.getLatitude())) * facteurLongitude * facteurLongitude));
     }
 
-    /**
-     * Converti un angle en degrés en un angle en radian.
-     * @param degres la valeur de l'angle en degrés.
-     * @return la valeur de l'angle en radian.
-     */
-    private double degresEnRadian(double degres) {
-        return degres * Math.PI / 180.0;
-    }
+
 }
